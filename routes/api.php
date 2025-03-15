@@ -20,10 +20,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//payement
-Route::group(['prefix'=>'payment'],function(){
-    Route::post('/',[PaymentController::class,'makePayment']);
-});
 
 
 // Public Routes
@@ -49,6 +45,8 @@ Route::get('/auth/google/callback', [socialAuthController::class, 'handleCallbac
 
 // Protected Routes
 Route::middleware('auth:api')->group(function () {
+    //payment
+    Route::post('/payment',[PaymentController::class,'makePayment']);
     // Users
     Route::get('/user', [UsersContoller::class, 'authUser']);
     Route::middleware('checkAdmin')->controller(UsersContoller::class)->group(function () {
@@ -59,6 +57,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/user/add', 'addUser');
         Route::delete('/user/{id}', 'destroy');
     });
+          
+  
     // Product Manger
     Route::middleware('checkProductManager')->controller(CategoryController::class)->group(function () {
 
